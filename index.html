@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>WebCam Filters</title>
+        <script src="js/filter.js"></script>
+        <script src="js/filters/slow-exposure.js"></script>
+    </head>
+    <body>
+        <video id='cam' autoplay='true' width='640' height='480'></video>
+        <div id='mask' width='640' height='480'></div>
+        <script>
+            var filter = new Filter({
+                video: document.getElementById('cam'),
+                onConnect: onConnect,
+                filter: {
+                    name: 'Slow Exposure',
+                    config: {
+                        frames: 12
+                    }
+                }
+            });
+
+            function onConnect(err, data) {
+                console.log('connected');
+
+                var maskDiv = document.getElementById('mask');
+                maskDiv.appendChild(data.canvas);
+
+                filter.start();
+            }
+        </script>
+    </body>
+</html>
